@@ -44,7 +44,7 @@ async function userRoutes(server: FastifyInstance) {
     '/:userId',
     {
       preHandler: [adminOnlyHook],
-      schema: updateUserRequestSchema,
+      schema: updateUserRequestSchema as any,
     },
     updateUserHandler
   );
@@ -53,7 +53,7 @@ async function userRoutes(server: FastifyInstance) {
     '/:userId/status',
     {
       preHandler: [adminOnlyHook],
-      schema: updateUserStatusRequestSchema,
+      schema: updateUserStatusRequestSchema as any,
     },
     updateUserStatusHandler
   );

@@ -26,7 +26,7 @@ async function ticketRoutes(server: FastifyInstance) {
     };
   }>(
     '/',
-    { preHandler: [allUsersHook], schema: createTicketRequestSchema },
+    { preHandler: [allUsersHook], schema: createTicketRequestSchema as any },
     createTicketHandler
   );
 
@@ -39,7 +39,7 @@ async function ticketRoutes(server: FastifyInstance) {
   // Admin: อัปเดต Ticket
   server.patch<{ Params: { ticketId: string }; Body: { status?: 'open' | 'in_progress' | 'resolved' | 'closed'; assignedToId?: string } }>(
     '/:ticketId',
-    { preHandler: [adminOnlyHook], schema: updateTicketRequestSchema },
+    { preHandler: [adminOnlyHook], schema: updateTicketRequestSchema  as any },
     updateTicketHandler
   );
 }

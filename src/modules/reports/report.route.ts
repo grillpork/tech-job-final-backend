@@ -29,7 +29,7 @@ async function reportRoutes(server: FastifyInstance) {
     '/completed-jobs-trend',
     {
       preHandler: [adminOnlyHook],
-      schema: getTrendRequestSchema,
+      schema: getTrendRequestSchema as any, // ใช้ schema ที่ถูกต้อง
     },
     getCompletedJobsTrendHandler
   );

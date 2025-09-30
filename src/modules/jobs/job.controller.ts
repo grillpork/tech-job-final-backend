@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyRequest, FastifyReply, RouteGenericInterface } from "fastify";
 import { AssignJobInput, CreateJobHistoryInput, CreateJobInput, JobParamsInput, PaginationInput, UpdateJobInput, UpdateJobStatusInput } from "./job.schema";
 import {
   createJob,
@@ -17,9 +17,12 @@ import {
   createComment
 } from "./job.service";
 
+// Augment request type for authenticated handlers that expect request.user
+type AuthenticatedRequest<T extends RouteGenericInterface = RouteGenericInterface> = FastifyRequest<T> & { user: { id: string } };
+
 // Handler สำหรับสร้างงาน
 export async function createJobHandler(
-  request: FastifyRequest<{ Body: CreateJobInput }>,
+  request: AuthenticatedRequest<{ Body: CreateJobInput }>,
   reply: FastifyReply
 ) {
   // request.user.id มาจาก authHook
@@ -88,7 +91,7 @@ export async function completeJobHandler(
 
 
 export async function createJobHistoryHandler(
-  request: FastifyRequest<{ Params: JobParamsInput; Body: CreateJobHistoryInput }>,
+  request: AuthenticatedRequest<{ Params: JobParamsInput; Body: CreateJobHistoryInput }>,
   reply: FastifyReply
 ) {
   const { jobId } = request.params;
@@ -101,7 +104,7 @@ export async function createJobHistoryHandler(
 }
 
 // Handler สำหรับดึงงานของตัวเอง
-export async function getMyJobsHandler(request: FastifyRequest) {
+export async function getMyJobsHandler(request: AuthenticatedRequest) {
   const jobs = await getMyAssignedJobs(request.user.id);
   return jobs;
 }
@@ -135,7 +138,7 @@ export async function getUnassignedJobsHandler() {
 
 
 export async function startTimeLogHandler(
-  request: FastifyRequest<{ Params: { jobId: string } }>,
+  request: AuthenticatedRequest<{ Params: { jobId: string } }>,
   reply: FastifyReply
 ) {
   try {
@@ -147,7 +150,7 @@ export async function startTimeLogHandler(
 }
 
 export async function stopTimeLogHandler(
-  request: FastifyRequest<{ Params: { jobId: string } }>,
+  request: AuthenticatedRequest<{ Params: { jobId: string } }>,
   reply: FastifyReply
 ) {
   try {
@@ -161,7 +164,7 @@ export async function stopTimeLogHandler(
 
 // ✅ เพิ่ม Handler นี้
 export async function createCommentHandler(
-  request: FastifyRequest<{ Params: { jobId: string }, Body: { comment: string } }>,
+  request: AuthenticatedRequest<{ Params: { jobId: string }, Body: { comment: string } }>,
   reply: FastifyReply
 ) {
   const comment = await createComment(

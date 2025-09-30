@@ -40,7 +40,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/',
     {
       preHandler: [allUsersHook],
-      schema: getJobsRequestSchema,
+      schema: getJobsRequestSchema as any,
     },
     getAllJobsHandler
   );
@@ -57,7 +57,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/',
     {
       preHandler: [adminOnlyHook],
-      schema: createJobRequestSchema,
+      schema: createJobRequestSchema as any,
     },
     createJobHandler
   );
@@ -87,7 +87,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId',
     {
       preHandler: [allUsersHook],
-      schema: getJobRequestSchema,
+      schema: getJobRequestSchema as any,
     },
     getJobByIdHandler
   );
@@ -108,7 +108,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId',
     {
       preHandler: [adminOnlyHook],
-      schema: updateJobRequestSchema,
+      schema: updateJobRequestSchema as any,
     },
     updateJobHandler
   );
@@ -118,7 +118,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId',
     {
       preHandler: [adminOnlyHook],
-      schema: getJobRequestSchema,
+      schema: getJobRequestSchema as any,
     },
     deleteJobHandler
   );
@@ -128,7 +128,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId/assign',
     {
       preHandler: [allUsersHook],
-      schema: assignJobRequestSchema,
+      schema: assignJobRequestSchema as any,
     },
     assignJobHandler
   );
@@ -141,7 +141,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId/status',
     {
       preHandler: [allUsersHook],
-      schema: updateJobStatusRequestSchema,
+      schema: updateJobStatusRequestSchema as any,
     },
     updateJobStatusHandler
   );
@@ -151,7 +151,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId/complete',
     {
       preHandler: [allUsersHook],
-      schema: completeJobRequestSchema,
+      schema: completeJobRequestSchema as any,
     },
     completeJobHandler
   );
@@ -164,7 +164,7 @@ async function jobRoutes(server: FastifyInstance) {
     '/:jobId/history',
     {
       preHandler: [allUsersHook],
-      schema: createJobHistoryRequestSchema,
+      schema: createJobHistoryRequestSchema as any,
     },
     createJobHistoryHandler
   );
@@ -185,7 +185,7 @@ async function jobRoutes(server: FastifyInstance) {
         '/:jobId/comments',
         {
             preHandler: [allUsersHook],
-            schema: createCommentRequestSchema
+            schema: createCommentRequestSchema as any
         },
         createCommentHandler
     );

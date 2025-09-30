@@ -36,7 +36,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     "/requests",
     {
       preHandler: [allUsersHook],
-      schema: createRequestRequestSchema,
+      schema: createRequestRequestSchema as any,
     },
     createRequestHandler
   );
@@ -62,7 +62,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     "/requests/:requestId/approve",
     {
       preHandler: [adminOnlyHook],
-      schema: manageRequestRequestSchema,
+      schema: manageRequestRequestSchema as any,
     },
     approveRequestHandler
   );
@@ -72,7 +72,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     "/requests/:requestId/reject",
     {
       preHandler: [adminOnlyHook],
-      schema: manageRequestRequestSchema,
+      schema: manageRequestRequestSchema as any,
     },
     rejectRequestHandler
   );
@@ -83,7 +83,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     "/items/:itemId",
     {
       preHandler: [adminOnlyHook],
-      schema: updateItemRequestSchema,
+      schema: updateItemRequestSchema as any,
     },
     updateItemHandler
   );
@@ -93,7 +93,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     "/items",
     {
       preHandler: [adminOnlyHook],
-      schema: createItemRequestSchema,
+      schema: createItemRequestSchema as any,
     },
     createItemHandler
   );
@@ -102,7 +102,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     '/items/:itemId/type', // <-- เช็คว่า path ถูกต้อง
     {
       preHandler: [adminOnlyHook],
-      schema: updateItemTypeRequestSchema
+      schema: updateItemTypeRequestSchema as any, // <-- ใช้ schema ที่ถูกต้อง
     },
     updateItemTypeHandler
   );
