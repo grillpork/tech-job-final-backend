@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { findUserById, getAllUsers, updateUser, updateUserAvatar, updateUserStatus } from './user.service';
 import { UpdateUserAvatarInput, UpdateUserInput } from './user.schema';
-import { supabaseAdmin } from '@/utils/supabase';
+import { supabaseAdmin } from '../../utils/supabase';
 
 export async function getMeHandler(request: FastifyRequest, reply: FastifyReply) {
   // `request.user` จะถูกแนบเข้ามาโดย authHook ของเรา
@@ -28,7 +28,7 @@ export async function updateAvatarHandler(
   const userId = request.user.id;
   
   // 1. รับไฟล์จาก Request
-  const file = await request.file();
+  const file = await (request as any).file?.();
   if (!file) {
     return reply.badRequest('No avatar file uploaded.');
   }

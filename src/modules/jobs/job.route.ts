@@ -36,7 +36,7 @@ async function jobRoutes(server: FastifyInstance) {
   // --- Collection Level Routes ---
 
   // GET /api/jobs (Get all jobs with pagination)
-  server.get(
+  server.get<{ Querystring: { page: number; limit: number } }>(
     '/',
     {
       preHandler: [allUsersHook],
@@ -46,7 +46,14 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // POST /api/jobs (Create a new job - Admin only)
-  server.post(
+  server.post<{
+    Body: {
+      title: string;
+      description?: string;
+      department?: string;
+      attachments?: { fileName: string; fileUrl: string }[];
+    };
+  }>(
     '/',
     {
       preHandler: [adminOnlyHook],
@@ -76,7 +83,7 @@ async function jobRoutes(server: FastifyInstance) {
   // --- Item Level Routes (require a :jobId) ---
   
   // GET /api/jobs/:jobId (Get a single job by ID)
-  server.get(
+  server.get<{ Params: { jobId: string } }>(
     '/:jobId',
     {
       preHandler: [allUsersHook],
@@ -86,7 +93,18 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // PATCH /api/jobs/:jobId (Update a job - Admin only)
-  server.patch(
+  server.patch<{
+    Params: { jobId: string };
+    Body: {
+      status?: 'in_progress' | 'pending' | 'completed' | 'cancelled';
+      title?: string;
+      description?: string;
+      locationName?: string;
+      department?: string;
+      lat?: number;
+      lng?: number;
+    };
+  }>(
     '/:jobId',
     {
       preHandler: [adminOnlyHook],
@@ -96,7 +114,7 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // DELETE /api/jobs/:jobId (Delete a job - Admin only)
-  server.delete(
+  server.delete<{ Params: { jobId: string } }>(
     '/:jobId',
     {
       preHandler: [adminOnlyHook],
@@ -106,7 +124,7 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // POST /api/jobs/:jobId/assign (Assign a job to a user - Admin only)
-  server.post(
+  server.post<{ Params: { jobId: string }; Body: { userId: string } }>(
     '/:jobId/assign',
     {
       preHandler: [allUsersHook],
@@ -116,7 +134,10 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // PATCH /api/jobs/:jobId/status (Update a job's status)
-  server.patch(
+  server.patch<{
+    Params: { jobId: string };
+    Body: { status: 'in_progress' | 'pending' | 'completed' | 'cancelled' };
+  }>(
     '/:jobId/status',
     {
       preHandler: [allUsersHook],
@@ -126,7 +147,7 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // POST /api/jobs/:jobId/complete (Complete a job and handle returns)
-  server.post(
+  server.post<{ Params: { jobId: string }; Body: { returnedItems: any[] } }>(
     '/:jobId/complete',
     {
       preHandler: [allUsersHook],
@@ -136,7 +157,10 @@ async function jobRoutes(server: FastifyInstance) {
   );
 
   // POST /api/jobs/:jobId/history (Submit a job history report)
-  server.post(
+  server.post<{
+    Params: { jobId: string };
+    Body: { description: string; files?: { fileUrl: string; fileType?: string }[] };
+  }>(
     '/:jobId/history',
     {
       preHandler: [allUsersHook],
@@ -145,19 +169,19 @@ async function jobRoutes(server: FastifyInstance) {
     createJobHistoryHandler
   );
 
-  server.post(
+  server.post<{ Params: { jobId: string } }>(
         '/:jobId/timelog/start',
         { preHandler: [allUsersHook] },
         startTimeLogHandler
     );
 
-    server.post(
+    server.post<{ Params: { jobId: string } }>(
         '/:jobId/timelog/stop',
         { preHandler: [allUsersHook] },
         stopTimeLogHandler
     );
 
-     server.post(
+     server.post<{ Params: { jobId: string }; Body: { comment: string } }>(
         '/:jobId/comments',
         {
             preHandler: [allUsersHook],

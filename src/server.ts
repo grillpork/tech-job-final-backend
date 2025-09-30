@@ -1,21 +1,26 @@
-import Fastify, { FastifyRequest, FastifyReply } from "fastify";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import sensible from "./plugins/sensible";
-import jwt from "./plugins/jwt";
-import cors from "@fastify/cors";
-import { config } from "./config";
-import authRoutes from "./modules/auth/auth.route";
-import userRoutes from "./modules/users/user.route";
-import jobRoutes from "./modules/jobs/job.route";
-import inventoryRoutes from "./modules/inventory/inventory.route";
-import multipart from "@fastify/multipart";
-import reportRoutes from './modules/reports/report.route';
-import positionRoutes from './modules/positions/position.route';
-import ticketRoutes from "./modules/tickets/ticket.route";
-import notificationRoutes from './modules/notifications/notification.route';
+import Fastify from 'fastify';
+import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'; // Import Zod provider
+import sensible from './plugins/sensible';
+import jwt from './plugins/jwt';
+import cors from '@fastify/cors';
+import { config } from './config';
 
-declare module "fastify" {
-  interface FastifyRequest {
+// Import routes
+import authRoutes from './modules/auth/auth.route';
+import userRoutes from './modules/users/user.route';
+import jobRoutes from './modules/jobs/job.route';
+import inventoryRoutes from './modules/inventory/inventory.route';
+import positionRoutes from './modules/positions/position.route';
+import reportRoutes from './modules/reports/report.route';
+import ticketRoutes from './modules/tickets/ticket.route';
+import notificationRoutes from './modules/notifications/notification.route';
+import uploadRoutes from './modules/uploads/upload.route';
+
+
+// ✅ 1. ประกาศ Type ของ JWT Payload ที่นี่ที่เดียว
+declare module '@fastify/jwt' {
+  interface FastifyJWT {
+    payload: { id: string; role: string };
     user: {
       id: string;
       role: string;
@@ -24,60 +29,39 @@ declare module "fastify" {
 }
 
 async function buildServer() {
-  const server = Fastify({
-    logger: true,
-  });
+  // ✅ 2. เพิ่ม .withTypeProvider<ZodTypeProvider>()
+  const server = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
+
+  // Set the validator and serializer compilers
+  server.setValidatorCompiler(validatorCompiler);
+  server.setSerializerCompiler(serializerCompiler);
 
   // Register plugins
-  await server.register(cors, {
-    origin: "*", // ควรเปลี่ยนเป็น URL ของ Frontend จริงใน Production
-  });
+  await server.register(cors, { origin: '*' });
   await server.register(jwt);
   await server.register(sensible);
-  await server.register(multipart, {
-    limits: {
-      fileSize: 1024 * 1024 * 5, // 5 Megabytes
-    },
-  });
 
-  // Custom JSON Schema for Zod
-  server.setSerializerCompiler(({ schema }) => {
-    return (data) => JSON.stringify(data);
-  });
-  server.setValidatorCompiler(({ schema }) => {
-    const jsonSchema = zodToJsonSchema(schema as any, { $refStrategy: "none" });
-    return (data) => {
-      try {
-        (schema as any).parse(data);
-        return { value: data };
-      } catch (e) {
-        return { error: e as Error };
-      }
-    };
-  });
+  // Health check
+  server.get('/health', async () => ({ status: 'ok' }));
 
-  // Health check route
-   server.get('/health', async () => { return { status: 'ok' };
-  });
-
-
-  // Register modules routes
-  server.register(authRoutes, { prefix: "/api/auth" });
-  server.register(userRoutes, { prefix: "/api/users" });
-  server.register(jobRoutes, { prefix: "/api/jobs" });
-  server.register(inventoryRoutes, { prefix: "/api/inventory" });
-  server.register(reportRoutes, { prefix: "/api/reports" });
-  server.register(positionRoutes, { prefix: '/api/positions' })
-  server.register(ticketRoutes, { prefix: '/api/tickets' })
+  // Register all routes
+  server.register(authRoutes, { prefix: '/api/auth' });
+  server.register(userRoutes, { prefix: '/api/users' });
+  server.register(jobRoutes, { prefix: '/api/jobs' });
+  server.register(inventoryRoutes, { prefix: '/api/inventory' });
+  server.register(positionRoutes, { prefix: '/api/positions' });
+  server.register(reportRoutes, { prefix: '/api/reports' });
+  server.register(ticketRoutes, { prefix: '/api/tickets' });
   server.register(notificationRoutes, { prefix: '/api/notifications' });
+  server.register(uploadRoutes, { prefix: '/api/uploads' });
+
   return server;
 }
 
 async function main() {
   const server = await buildServer();
   try {
-    await server.listen({ port: config.PORT, host: "0.0.0.0" });
-    console.log(`Server listening at http://localhost:${config.PORT}`);
+    await server.listen({ port: config.PORT, host: '0.0.0.0' });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

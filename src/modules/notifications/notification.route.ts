@@ -7,7 +7,11 @@ const allUsersHook = createAuthHook(['admin', 'employee']);
 async function notificationRoutes(server: FastifyInstance) {
   server.get('/', { preHandler: [allUsersHook] }, getMyNotificationsHandler);
   
-  server.post('/:notificationId/read', { preHandler: [allUsersHook] }, markAsReadHandler);
+  server.post<{ Params: { notificationId: string } }>(
+    '/:notificationId/read',
+    { preHandler: [allUsersHook] },
+    markAsReadHandler
+  );
 }
 
 export default notificationRoutes;

@@ -32,7 +32,7 @@ async function inventoryRoutes(server: FastifyInstance) {
   server.get("/items", { preHandler: [allUsersHook] }, getAllItemsHandler);
 
   // Route สำหรับให้ Employee สร้างคำขอเบิกใหม่
-  server.post(
+  server.post<{ Body: { quantity: number; itemId: string; jobId?: string; reason?: string } }>(
     "/requests",
     {
       preHandler: [allUsersHook],
@@ -58,7 +58,7 @@ async function inventoryRoutes(server: FastifyInstance) {
   );
 
   // Route สำหรับ Admin อนุมัติคำขอ
-  server.post(
+  server.post<{ Params: { requestId: string } }>(
     "/requests/:requestId/approve",
     {
       preHandler: [adminOnlyHook],
@@ -68,7 +68,7 @@ async function inventoryRoutes(server: FastifyInstance) {
   );
 
   // Route สำหรับ Admin ปฏิเสธคำขอ
-  server.post(
+  server.post<{ Params: { requestId: string } }>(
     "/requests/:requestId/reject",
     {
       preHandler: [adminOnlyHook],
@@ -79,7 +79,7 @@ async function inventoryRoutes(server: FastifyInstance) {
 
   // Route สำหรับ Admin อัปเดตสต็อกสินค้าโดยตรง
   // แก้ไข Route นี้
-  server.patch(
+  server.patch<{ Params: { itemId: string }; Body: { name?: string; quantity?: number } }>(
     "/items/:itemId",
     {
       preHandler: [adminOnlyHook],
@@ -89,7 +89,7 @@ async function inventoryRoutes(server: FastifyInstance) {
   );
 
   // Route สำหรับ Admin สร้างสินค้าใหม่
-  server.post(
+  server.post<{ Body: { name: string; quantity: number } }>(
     "/items",
     {
       preHandler: [adminOnlyHook],
@@ -98,7 +98,7 @@ async function inventoryRoutes(server: FastifyInstance) {
     createItemHandler
   );
 
-  server.patch( // <-- เช็คว่าเป็น 'patch'
+  server.patch<{ Params: { itemId: string }; Body: { type: "consumable" | "reusable" } }>( // <-- เช็คว่าเป็น 'patch'
     '/items/:itemId/type', // <-- เช็คว่า path ถูกต้อง
     {
       preHandler: [adminOnlyHook],
@@ -107,11 +107,10 @@ async function inventoryRoutes(server: FastifyInstance) {
     updateItemTypeHandler
   );
 
- server.delete(
+ server.delete<{ Params: { itemId: string } }>(
         '/items/:itemId',
         {
-            preHandler: [adminOnlyHook],
-            schema: deleteInventoryItem // ใช้ schema เดิม
+            preHandler: [adminOnlyHook]
         },
         deleteItemHandler
     );

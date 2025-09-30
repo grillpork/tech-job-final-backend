@@ -40,7 +40,7 @@ async function userRoutes(server: FastifyInstance) {
     updateAvatarHandler
   );
 
-  server.patch(
+  server.patch<{ Params: { userId: string }; Body: { role?: 'admin' | 'employee'; name?: string; positionId?: string } }>(
     '/:userId',
     {
       preHandler: [adminOnlyHook],
@@ -49,7 +49,7 @@ async function userRoutes(server: FastifyInstance) {
     updateUserHandler
   );
 
-  server.patch(
+  server.patch<{ Params: { userId: string }; Body: { status: 'available' | 'busy' | 'on_leave' | 'resigned' } }>(
     '/:userId/status',
     {
       preHandler: [adminOnlyHook],

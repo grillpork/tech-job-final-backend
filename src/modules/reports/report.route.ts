@@ -25,7 +25,7 @@ async function reportRoutes(server: FastifyInstance) {
     getTopItemsHandler
   );
 
-  server.get(
+  server.get<{ Querystring: { period: 'day' | 'month' | 'year' } }>(
     '/completed-jobs-trend',
     {
       preHandler: [adminOnlyHook],

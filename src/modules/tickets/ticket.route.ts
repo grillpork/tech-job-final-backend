@@ -17,7 +17,14 @@ const allUsersHook = createAuthHook(['admin', 'employee']);
 
 async function ticketRoutes(server: FastifyInstance) {
   // Employee: สร้าง Ticket
-  server.post(
+  server.post<{
+    Body: {
+      title: string;
+      description: string;
+      category: 'equipment_failure' | 'it_support' | 'safety_concern' | 'other';
+      priority: 'low' | 'medium' | 'high';
+    };
+  }>(
     '/',
     { preHandler: [allUsersHook], schema: createTicketRequestSchema },
     createTicketHandler
@@ -30,7 +37,7 @@ async function ticketRoutes(server: FastifyInstance) {
   server.get('/', { preHandler: [adminOnlyHook] }, getAllTicketsHandler);
 
   // Admin: อัปเดต Ticket
-  server.patch(
+  server.patch<{ Params: { ticketId: string }; Body: { status?: 'open' | 'in_progress' | 'resolved' | 'closed'; assignedToId?: string } }>(
     '/:ticketId',
     { preHandler: [adminOnlyHook], schema: updateTicketRequestSchema },
     updateTicketHandler
