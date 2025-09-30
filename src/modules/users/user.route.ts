@@ -5,13 +5,13 @@ import {
   updateAvatarHandler,
   updateUserHandler,
   updateUserStatusHandler,
-} from './user.controller';
-import { createAuthHook } from '../../hooks/authHook';
+} from './user.controller.js';
+import { createAuthHook } from '../../hooks/authHook.js';
 import {
   updateUserAvatarRequestSchema,
   updateUserRequestSchema,
   updateUserStatusRequestSchema,
-} from './user.schema';
+} from './user.schema.js';
 // import { updateUserAvatarRequestSchema } from './user.schema';
 
 // สร้าง Hook โดยระบุว่าทั้ง 'admin' และ 'employee' สามารถเข้าถึงได้

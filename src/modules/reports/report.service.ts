@@ -1,5 +1,5 @@
-import { db } from '../../db';
-import { inventoryItems, inventoryRequests, jobHistory, users } from '../../db/schema';
+import { db } from '../../db/index.js';
+import { inventoryItems, inventoryRequests, jobHistory, users } from '../../db/schema.js';
 import { sql, eq, gte, desc } from 'drizzle-orm';
 
 export async function getEmployeeProductivity() {

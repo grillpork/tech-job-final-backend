@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { findUserById, getAllUsers, updateUser, updateUserAvatar, updateUserStatus } from './user.service';
-import { UpdateUserAvatarInput, UpdateUserInput } from './user.schema';
-import { supabaseAdmin } from '../../utils/supabase';
+import { findUserById, getAllUsers, updateUser, updateUserAvatar, updateUserStatus } from './user.service.js';
+import { UpdateUserAvatarInput, UpdateUserInput } from './user.schema.js';
+import { supabaseAdmin } from '../../utils/supabase.js';
 
 export async function getMeHandler(request: FastifyRequest, reply: FastifyReply) {
   // `request.user` จะถูกแนบเข้ามาโดย authHook ของเรา

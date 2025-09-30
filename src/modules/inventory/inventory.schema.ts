@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { inventoryItems, itemTypeEnum } from "@/db/schema";
+import { db } from "@/db/index.js";
+import { inventoryItems, itemTypeEnum } from "@/db/schema.js";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 

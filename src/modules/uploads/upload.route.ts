@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
-import { uploadImageHandler } from './upload.controller';
+import { createAuthHook } from '../../hooks/authHook.js';
+import { uploadImageHandler } from './upload.controller.js';
 
 const allUsersHook = createAuthHook(['admin', 'employee']);
 

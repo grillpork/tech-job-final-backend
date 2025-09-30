@@ -5,7 +5,7 @@ import {
   UpdateItemInput,
   UpdateItemQuantityInput,
   UpdateItemTypeInput,
-} from './inventory.schema';
+} from './inventory.schema.js';
 import {
   getAllInventoryItems,
   createInventoryRequest,
@@ -18,7 +18,7 @@ import {
   updateInventoryItem,
   updateItemType,
   deleteInventoryItem,
-} from './inventory.service';
+} from './inventory.service.js';
 
 // Handler สำหรับดึงรายการสินค้าทั้งหมด
 export async function getAllItemsHandler() {

@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, RouteGenericInterface } from "fastify";
-import { AssignJobInput, CreateJobHistoryInput, CreateJobInput, JobParamsInput, PaginationInput, UpdateJobInput, UpdateJobStatusInput } from "./job.schema";
+import { AssignJobInput, CreateJobHistoryInput, CreateJobInput, JobParamsInput, PaginationInput, UpdateJobInput, UpdateJobStatusInput } from "./job.schema.js";
 import {
   createJob,
   getAllJobs,
@@ -15,7 +15,7 @@ import {
   startTimeLog,
   stopTimeLog,
   createComment
-} from "./job.service";
+} from "./job.service.js";
 
 // Augment request type for authenticated handlers that expect request.user
 type AuthenticatedRequest<T extends RouteGenericInterface = RouteGenericInterface> = FastifyRequest<T> & { user: { id: string } };

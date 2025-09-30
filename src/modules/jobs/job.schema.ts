@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { itemTypeEnum, jobStatusEnum, returnStatusEnum } from '../../db/schema';
+import { itemTypeEnum, jobStatusEnum, returnStatusEnum } from '../../db/schema.js';
 const createJobSchema = z.object({
   title: z.string({ required_error: 'Title is required' }).min(3),
   description: z.string().optional(),

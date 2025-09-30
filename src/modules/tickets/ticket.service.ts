@@ -1,7 +1,7 @@
-import { db } from '../../db';
-import { tickets } from '../../db/schema';
+import { db } from '../../db/index.js';
+import { tickets } from '../../db/schema.js';
 import { eq, desc } from 'drizzle-orm';
-import { CreateTicketInput, UpdateTicketInput } from './ticket.schema';
+import { CreateTicketInput, UpdateTicketInput } from './ticket.schema.js';
 
 // Service สำหรับ Employee สร้าง Ticket
 export async function createTicket(input: CreateTicketInput, reporterId: string) {

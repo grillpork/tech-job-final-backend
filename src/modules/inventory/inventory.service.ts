@@ -1,12 +1,12 @@
-import { db } from "../../db";
-import { inventoryItems, inventoryRequests } from "../../db/schema";
+import { db } from "../../db/index.js";
+import { inventoryItems, inventoryRequests } from "../../db/schema.js";
 import { eq, and, sql, gt } from "drizzle-orm";
 import {
   CreateItemInput,
   CreateRequestInput,
   UpdateItemInput,
   UpdateItemTypeInput,
-} from "./inventory.schema";
+} from "./inventory.schema.js";
 
 // Service สำหรับดึงรายการสินค้าทั้งหมดในคลัง
 export async function getAllInventoryItems() {
@@ -70,7 +70,7 @@ export async function getMyRequests(userId: string) {
         },
       },
     },
-    orderBy: (req, { desc }) => [desc(req.requestedAt)],
+    orderBy: (req: { requestedAt: any; }, { desc }: any) => [desc(req.requestedAt)],
   });
 }
 
@@ -84,7 +84,7 @@ export async function getAllPendingRequests() {
       requester: { columns: { name: true } },
       item: { columns: { name: true } },
     },
-    orderBy: (req, { asc }) => [asc(req.requestedAt)],
+    orderBy: (req: { requestedAt: any; }, { asc }: any) => [asc(req.requestedAt)],
   });
 }
 
@@ -207,7 +207,7 @@ export async function updateItemType(
 ) {
   const [updatedItem] = await db
     .update(inventoryItems)
-    .set({ type: newType })
+    .set({ type: newType as "consumable" | "reusable" })
     .where(eq(inventoryItems.id, itemId))
     .returning();
 

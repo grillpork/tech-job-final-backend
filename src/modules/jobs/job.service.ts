@@ -1,8 +1,8 @@
-import { db } from '../../db';
+import { db } from '../../db/index.js';
 // เพิ่ม assignments เข้ามา
-import { jobs, assignments, inventoryRequests, inventoryItems, jobHistory, timeLogs, jobComments, jobHistoryFiles, jobAttachments } from '../../db/schema'; 
+import { jobs, assignments, inventoryRequests, inventoryItems, jobHistory, timeLogs, jobComments, jobHistoryFiles, jobAttachments } from '../../db/schema.js'; 
 import { eq, and, sql, notExists, isNull, desc } from 'drizzle-orm';
-import { CreateJobInput, UpdateJobStatusInput, AssignJobInput, CreateJobHistoryInput, PaginationInput, UpdateJobInput,  } from './job.schema';
+import { CreateJobInput, UpdateJobStatusInput, AssignJobInput, CreateJobHistoryInput, PaginationInput, UpdateJobInput,  } from './job.schema.js';
 
 
 export async function createJob(input: CreateJobInput, createdBy: string) {
@@ -43,7 +43,7 @@ export async function getAllJobs(input: PaginationInput) {
     },
     limit: limit,
     offset: offset,
-    orderBy: (job, { desc }) => [desc(job.createdAt)],
+    orderBy: (job: { createdAt: any; }, { desc }: any) => [desc(job.createdAt)],
   });
 
   // 2. นับจำนวน Job ทั้งหมด (เพื่อใช้คำนวณจำนวนหน้าทั้งหมด)
@@ -72,10 +72,10 @@ export async function getJobById(jobId: string) {
       },
       comments: { // ดึงคอมเมนต์มาด้วย
         with: { user: { columns: { name: true, imageUrl: true } } },
-        orderBy: (comment, { desc }) => [desc(comment.createdAt)],
+        orderBy: (comment: { createdAt: any; }, { desc }: any) => [desc(comment.createdAt)],
       },
        timeLogs: { // ✅ เพิ่มการดึงข้อมูล timeLogs
-        orderBy: (log, { desc }) => [desc(log.startTime)],
+        orderBy: (log: { startTime: any; }, { desc }: any) => [desc(log.startTime)],
       },
     },
   });
@@ -112,11 +112,11 @@ export async function getMyAssignedJobs(userId: string) {
         }
       },
     },
-    orderBy: (assignment, { desc }) => [desc(assignment.assignedAt)],
+    orderBy: (assignment: { assignedAt: any; }, { desc }: any) => [desc(assignment.assignedAt)],
   });
 
   // จัดรูปแบบข้อมูลใหม่ให้ใช้ง่ายขึ้นใน Frontend
-  return assigned.map(a => a.job);
+  return assigned.map((a: { job: any; }) => a.job);
 }
 
 // Service สำหรับอัปเดตสถานะงาน
@@ -264,7 +264,7 @@ export async function getUnassignedJobs() {
     with: {
       creator: { columns: { name: true } },
     },
-    orderBy: (job, { desc }) => [desc(job.createdAt)],
+    orderBy: (job: { createdAt: any; }, { desc }: any) => [desc(job.createdAt)],
   });
 }
 

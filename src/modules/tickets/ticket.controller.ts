@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { CreateTicketInput, UpdateTicketInput } from './ticket.schema';
-import { createTicket, getMyTickets, getAllTickets, updateTicket } from './ticket.service';
+import { CreateTicketInput, UpdateTicketInput } from './ticket.schema.js';
+import { createTicket, getMyTickets, getAllTickets, updateTicket } from './ticket.service.js';
 
 export async function createTicketHandler(
   request: FastifyRequest<{ Body: CreateTicketInput }>,

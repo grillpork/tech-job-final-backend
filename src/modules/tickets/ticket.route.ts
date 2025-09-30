@@ -1,16 +1,16 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
+import { createAuthHook } from '../../hooks/authHook.js';
 import {
   createTicketHandler,
   getMyTicketsHandler,
   getAllTicketsHandler,
   updateTicketHandler,
-} from './ticket.controller';
+} from './ticket.controller.js';
 import {
   createTicketRequestSchema,
   getTicketRequestSchema,
   updateTicketRequestSchema,
-} from './ticket.schema';
+} from './ticket.schema.js';
 
 const adminOnlyHook = createAuthHook(['admin']);
 const allUsersHook = createAuthHook(['admin', 'employee']);

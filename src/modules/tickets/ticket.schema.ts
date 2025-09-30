@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ticketCategoryEnum, ticketPriorityEnum, ticketStatusEnum } from '../../db/schema';
+import { ticketCategoryEnum, ticketPriorityEnum, ticketStatusEnum } from '../../db/schema.js';
 
 const ticketCore = {
   title: z.string().min(5, "Title must be at least 5 characters."),

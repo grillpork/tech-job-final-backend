@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { roleEnum } from '../db/schema';
+import { roleEnum } from '../db/schema.js';
 
 type AllowedRoles = (typeof roleEnum.enumValues)[number][];
 

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
-import { getAllPositionsHandler } from './position.controller';
+import { createAuthHook } from '../../hooks/authHook.js';
+import { getAllPositionsHandler } from './position.controller.js';
 
 const allUsersHook = createAuthHook(['admin', 'employee']);
 

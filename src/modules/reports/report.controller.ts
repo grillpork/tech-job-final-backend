@@ -1,5 +1,5 @@
 import { FastifyRequest } from 'fastify';
-import { getCompletedJobsTrend, getEmployeeProductivity, getTopInventoryItems } from './report.service';
+import { getCompletedJobsTrend, getEmployeeProductivity, getTopInventoryItems } from './report.service.js';
 
 export async function getEmployeeProductivityHandler() {
   const data = await getEmployeeProductivity();

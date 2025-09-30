@@ -1,5 +1,5 @@
 import { FastifyRequest } from 'fastify';
-import { getMyNotifications, markNotificationAsRead } from './notification.service';
+import { getMyNotifications, markNotificationAsRead } from './notification.service.js';
 
 export async function getMyNotificationsHandler(request: FastifyRequest) {
   return getMyNotifications(request.user.id);

@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
+import { createAuthHook } from '../../hooks/authHook.js';
 import {
   assignJobHandler,
   completeJobHandler,
@@ -15,7 +15,7 @@ import {
   stopTimeLogHandler,
   updateJobHandler,
   updateJobStatusHandler,
-} from './job.controller';
+} from './job.controller.js';
 import {
   assignJobRequestSchema,
   completeJobRequestSchema,
@@ -26,7 +26,7 @@ import {
   getJobsRequestSchema,
   updateJobRequestSchema,
   updateJobStatusRequestSchema,
-} from './job.schema';
+} from './job.schema.js';
 
 // สร้าง Hooks สำหรับ Role ที่ต้องการ
 const adminOnlyHook = createAuthHook(['admin']);

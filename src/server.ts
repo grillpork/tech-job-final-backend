@@ -1,20 +1,20 @@
 import Fastify from 'fastify';
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'; // Import Zod provider
-import sensible from './plugins/sensible';
-import jwt from './plugins/jwt';
+import sensible from './plugins/sensible.js';
+import jwt from './plugins/jwt.js';
 import cors from '@fastify/cors';
-import { config } from './config';
+import { config } from './config/index.js';
 
 // Import routes
-import authRoutes from './modules/auth/auth.route';
-import userRoutes from './modules/users/user.route';
-import jobRoutes from './modules/jobs/job.route';
-import inventoryRoutes from './modules/inventory/inventory.route';
-import positionRoutes from './modules/positions/position.route';
-import reportRoutes from './modules/reports/report.route';
-import ticketRoutes from './modules/tickets/ticket.route';
-import notificationRoutes from './modules/notifications/notification.route';
-import uploadRoutes from './modules/uploads/upload.route';
+import authRoutes from './modules/auth/auth.route.js';
+import userRoutes from './modules/users/user.route.js';
+import jobRoutes from './modules/jobs/job.route.js';
+import inventoryRoutes from './modules/inventory/inventory.route.js';
+import positionRoutes from './modules/positions/position.route.js';
+import reportRoutes from './modules/reports/report.route.js';
+import ticketRoutes from './modules/tickets/ticket.route.js';
+import notificationRoutes from './modules/notifications/notification.route.js';
+import uploadRoutes from './modules/uploads/upload.route.js';
 
 
 declare module '@fastify/jwt' {

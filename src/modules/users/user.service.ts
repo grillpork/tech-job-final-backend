@@ -1,7 +1,7 @@
-import { db } from '../../db';
-import { users } from '../../db/schema';
+import { db } from '../../db/index.js';
+import { users } from '../../db/schema.js';
 import { eq } from 'drizzle-orm';
-import { UpdateUserInput } from './user.schema';
+import { UpdateUserInput } from './user.schema.js';
 
 // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้ด้วย ID
 export async function findUserById(id: string) {

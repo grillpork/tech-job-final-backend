@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { supabaseAdmin } from '../../utils/supabase';
+import { supabaseAdmin } from '../../utils/supabase.js';
 import { randomUUID } from 'crypto';
 
 export async function uploadImageHandler(request: FastifyRequest, reply: FastifyReply) {

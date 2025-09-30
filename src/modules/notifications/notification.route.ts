@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
-import { getMyNotificationsHandler, markAsReadHandler } from './notification.controller';
+import { createAuthHook } from '../../hooks/authHook.js';
+import { getMyNotificationsHandler, markAsReadHandler } from './notification.controller.js';
 
 const allUsersHook = createAuthHook(['admin', 'employee']);
 

@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify';
-import { createAuthHook } from '../../hooks/authHook';
+import { createAuthHook } from '../../hooks/authHook.js';
 import {
     getCompletedJobsTrendHandler,
   getEmployeeProductivityHandler,
   getTopItemsHandler,
-} from './report.controller';
-import { getTrendRequestSchema } from './report.schema';
+} from './report.controller.js';
+import { getTrendRequestSchema } from './report.schema.js';
 
 const adminOnlyHook = createAuthHook(['admin']);
 

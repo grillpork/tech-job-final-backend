@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { LoginInput } from './auth.schema';
-import { findUserByEmail } from './auth.service';
-import { comparePassword } from '../../utils/password.utils';
+import { LoginInput } from './auth.schema.js';
+import { findUserByEmail } from './auth.service.js';
+import { comparePassword } from '../../utils/password.utils.js';
 
 export async function loginHandler(
   request: FastifyRequest<{ Body: LoginInput }>,

@@ -1,4 +1,4 @@
-import { roleEnum, userStatusEnum } from '@/db/schema';
+import { roleEnum, userStatusEnum } from '@/db/schema.js';
 import { z } from 'zod';
 
 const updateUserAvatarSchema = z.object({

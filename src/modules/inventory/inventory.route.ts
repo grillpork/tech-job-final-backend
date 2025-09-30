@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { createAuthHook } from "../../hooks/authHook";
+import { createAuthHook } from "../../hooks/authHook.js";
 import {
   getAllItemsHandler,
   createRequestHandler,
@@ -11,7 +11,7 @@ import {
   updateItemHandler,
   updateItemTypeHandler,
   deleteItemHandler,
-} from "./inventory.controller";
+} from "./inventory.controller.js";
 import {
   createItemRequestSchema,
   createRequestRequestSchema,
@@ -19,7 +19,7 @@ import {
   manageRequestRequestSchema,
   updateItemRequestSchema,
   updateItemTypeRequestSchema,
-} from "./inventory.schema";
+} from "./inventory.schema.js";
 
 
 
