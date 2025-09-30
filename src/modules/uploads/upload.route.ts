@@ -8,7 +8,7 @@ async function uploadRoutes(server: FastifyInstance) {
   server.post(
     '/image',
     {
-      preHandler: [allUsersHook], // ต้องล็อกอินก่อนถึงจะอัปโหลดได้
+      preHandler: [allUsersHook], 
     },
     uploadImageHandler
   );

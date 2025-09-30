@@ -17,7 +17,6 @@ import notificationRoutes from './modules/notifications/notification.route';
 import uploadRoutes from './modules/uploads/upload.route';
 
 
-// ✅ 1. ประกาศ Type ของ JWT Payload ที่นี่ที่เดียว
 declare module '@fastify/jwt' {
   interface FastifyJWT {
     payload: { id: string; role: string };
@@ -29,10 +28,9 @@ declare module '@fastify/jwt' {
 }
 
 async function buildServer() {
-  // ✅ 2. เพิ่ม .withTypeProvider<ZodTypeProvider>()
+
   const server = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
 
-  // Set the validator and serializer compilers
   server.setValidatorCompiler(validatorCompiler);
   server.setSerializerCompiler(serializerCompiler);
 
